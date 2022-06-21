@@ -1,5 +1,5 @@
 import ExpenseForm from "./ExpenseForm";
-
+import { useState } from "react";
 import "./NewExpense.css";
 
 function NewExpense(props) {
@@ -10,11 +10,25 @@ function NewExpense(props) {
     };
     props.onAddExpense(expenseData);
   }
-  return (
-    <div className="new-expense">
-      <ExpenseForm onSaveExpenseData={saveExpenseHandler} />
-    </div>
-  );
+
+  const [formDisplay, isFormDisplay] = useState(false);
+
+  function formDisplayHandler() {
+    isFormDisplay(true);
+  }
+
+  function buttonDisplay()
+  {
+    isFormDisplay(false);
+  }
+
+  let forms = <ExpenseForm onSaveExpenseData={saveExpenseHandler} onCancel={buttonDisplay} />;
+
+  if (formDisplay === false) {
+    forms = <button onClick={formDisplayHandler}>Add Expense</button>;
+  }
+
+  return <div className="new-expense">{forms}</div>;
 }
 
 export default NewExpense;
